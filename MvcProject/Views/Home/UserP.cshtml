@@ -1,0 +1,631 @@
+﻿@model MvcProject.BuyNet.User
+
+
+
+<style>
+     .orderp-img {
+         max-height: 170px;
+     }
+
+     a {
+         color: gray;
+         font-weight: 900;
+     }
+
+
+     Edit in JSFiddle Result CSS HTML .rating {
+         float: left;
+     }
+
+     /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t
+    follow these rules. Every browser that supports :checked also supports :not(), so
+    it doesn’t make the test unnecessarily selective */
+     .rating:not(:checked) > input {
+         position: absolute;
+         top: -9999px;
+         clip: rect(0,0,0,0);
+     }
+
+     .rating:not(:checked) > label {
+         float: right;
+         width: 1em;
+         padding: 0 .1em;
+         overflow: hidden;
+         white-space: nowrap;
+         cursor: pointer;
+         font-size: 200%;
+         line-height: 1.2;
+         color: #ddd;
+         text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+     }
+
+         .rating:not(:checked) > label:before {
+             content: '★ ';
+         }
+
+     .rating > input:checked ~ label {
+         color: #f70;
+         text-shadow: 1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+     }
+
+     .rating:not(:checked) > label:hover,
+     .rating:not(:checked) > label:hover ~ label {
+         color: gold;
+         text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+     }
+
+     .rating > input:checked + label:hover,
+     .rating > input:checked + label:hover ~ label,
+     .rating > input:checked ~ label:hover,
+     .rating > input:checked ~ label:hover ~ label,
+     .rating > label:hover ~ input:checked ~ label {
+         color: #ea0;
+         text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+     }
+
+     .rating > label:active {
+         position: relative;
+         top: 2px;
+         left: 2px;
+     }
+</style>
+
+
+
+<section style="padding-top:50px">
+    <div class="row">
+        <div class="col-lg-3">
+
+
+            @{string img = Model.Images[0] == null ? "/pics/profile3.jpg" : Model.Images.FirstOrDefault().img;}
+
+
+
+
+
+
+            <div class="image-upload">
+
+
+                <label for="file-input" class="col-lg-12">
+
+                    <img id="profile" src="@Html.Raw(img)" width="250" height="275" data-toggle="tooltip" title="Edit Picture" />
+
+                    <span class="glyphicon glyphicon-pencil" style="color: gray;margin-left: -32px;position: absolute;"></span>
+
+                </label>
+                <form id="image_form" method="post" enctype="multipart/form-data" action="@Url.Action("UserPicUpload", "home")">
+                    <input id="file-input" name="imge" type="file" accept="image/*" style="visibility:hidden" />
+                    <input type="submit" hidden />
+                </form>
+
+
+
+
+
+            </div>
+            <script>
+            window.onload = function () {
+
+                var fileInput = document.getElementById('file-input');
+                var fileDisplayArea = document.getElementById('profile');
+
+
+                fileInput.addEventListener('change', function (e) {
+                    var file = fileInput.files[0];
+                    var imageType = /image.*/;
+
+                    if (file.type.match(imageType)) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            fileDisplayArea.innerHTML = "";
+
+
+                            fileDisplayArea.src = reader.result;
+
+
+                            $('image_form').submit();
+
+
+
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        fileDisplayArea.innerHTML = "File not supported!"
+                    }
+                });
+
+            }
+            $("#profile").click(function () { $('[data-toggle=tooltip]').tooltip(); })
+
+            </script>
+        </div>
+        <div class="col-lg-6" style="position:relative">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 style="color: bisque;
+    font-weight: 900;">
+                        @Model.UserName
+</h1>
+</div>
+
+</div>
+
+<div class="col-lg-8">
+    <div class="row">
+        <div class="col-lg-12">
+            <b>@Model.Notes</b>
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+<div class="col-lg-3">
+    <div class="col-lg-12">
+        <a id="link" style="font-size:16px" href="">
+
+            <span id="selling"></span>
+
+        </a>
+    </div>
+
+</div>
+</div>
+
+<span class="glyphicons glyphicons-eyedropper"></span>
+</section>
+<br />
+
+<p class="user_body col col-sm-3 text-center">
+
+    <ul class="nav nav-tabs ">
+        <li class="active"><a id="him" data-toggle="tab" class="glyphicon glyphicon-ok" href="#buyer"><h4>Purchases</h4></a></li>
+        <li><a id="we" class="glyphicon glyphicon-user" data-toggle="tab" href="#seller"><h4>Seller</h4></a></li>
+        <li><a data-toggle="tab" class="glyphicon glyphicon-shopping-cart" href="#Cart"><h4> Shopping Cart</h4></a></li>
+
+
+    </ul>
+    <div class="tab-content">
+        <div id="buyer" class="tab-pane fade in active">
+
+            <div>
+
+                <table border="1">
+
+                    @foreach (var ordp in MvcProject.Controllers.HomeController.client.GetOrderProducts())
+                    {
+                        if (ordp.Order.User.Id == Model.Id || ordp.Order.DateOfPayment != null)
+                        {
+                            <tr class="row">
+                                <td class="col-lg-9">
+                                    <br />
+
+                                    <span class="col-lg-3">
+                                        @{ string pro_img = ordp.Product.Images.FirstOrDefault() == null ? "/pics/[Phones & Telecommunications]/LG 4/Galxy5s.jpg" : ordp.Product.Images.FirstOrDefault().img;}
+                                        <img class="orderp-img col-lg-12" src="@Html.Raw(pro_img)" />
+                                    </span>
+                                    <span class="col-lg-5">
+
+                                        <b style="color:gray; font-weight:900;font-size:18px">@ordp.Product.Name</b>
+                                        <br />
+                                        Quntity:
+                                        <b>@ordp.Quantity</b>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        Made at:
+                                        <b>@ordp.Order.DateOfPayment</b>
+                                        <br />
+                                        @{decimal price = decimal.Parse(ordp.Product.Price.ToString()) * decimal.Parse(ordp.Quantity.ToString());
+                                        }
+                                        Price:<b>Us <span class="glyphicon glyphicon-usd">@price</span></b>
+                                        <br />
+                                    </span>
+
+
+                                    <div class="col-lg-4">
+                                        <span class="top" style="color:dimgrey;font-weight:900;font-size:18px">@ordp.Product.User.UserName</span>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+
+                                        <fieldset class="rating">
+                                            <legend>Please rate:</legend>
+                                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+                                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+                                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+                                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+                                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+                                        </fieldset>
+
+
+
+                                    </div>
+
+                                </td>
+                                <td class="col-lg-7">
+                                    sent to:
+                                    <br />
+                                    <br />
+
+
+                                    Name: @Model.UserName
+                                    <br />
+                                    Country:  @Model.Country (deliveryadress)
+                                    <br />
+                                    Adress: @Model.City , @Model.Street_number, @Model.Zip_Code
+
+
+
+                                </td>
+                            </tr>
+
+                                                }
+
+
+                                            }
+                    <tr class="row"> <td><a href=""><span class="glyphicon glyphicon-download text-center col-lg-12"></span> </a></td> </tr>
+                </table>
+
+            </div>
+
+        </div>
+        <div id="seller" class="tab-pane fade ">
+            <div>
+                <table border="1">
+
+
+
+                    @{int ordpn = 0;
+                        foreach (var op in MvcProject.Controllers.HomeController.client.GetOrderProducts())
+                        {
+
+
+                            if (op.Product.SellerId == Model.Id)
+                            {
+                                ordpn++;
+                                <tr class="row">
+                                    <td class="col-lg-9">
+                                        <br />
+
+                                        <span class="col-lg-3">
+                                            <img class="col-lg-12 orderp-img" src="@Html.Raw(op.Product.Images[0].img)" />
+                                        </span>
+                                        <span class="col-lg-5">
+
+                                            <b style="color:gray; font-weight:900;font-size:18px">@op.Product.Name</b>
+                                            <br />
+                                            Quntity:
+                                            <b>@op.Quantity</b>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            @{decimal price = decimal.Parse(op.Product.Price.ToString()) * decimal.Parse(op.Quantity.ToString());
+                                            }
+                                            Price:<b style="color:orangered">Us <span class="glyphicon glyphicon-usd"><span style="font-size:18px">@price</span></span></b>
+                                            <br />
+
+
+
+                                        </span>
+                                        <span class="col-lg-4">
+                                            <span class="top" style="color:dimgrey;font-weight:900;font-size:18px">@Model.UserName</span>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            Rank product:
+
+                                            @for (int i = 0; i < @op.Product.Rating; i++)
+                                            {
+                                                <span class="bottom glyphicon glyphicon glyphicon-star" style="color:orange"></span>
+                                            }
+                                            @if (@op.Product.Rating < 5)
+                                            {
+                                                for (int i = 0; i < (5 - @op.Product.Rating); i++)
+                                                {
+                                                    <span class="bottom glyphicon glyphicon glyphicon-star" style="color:lightgray"></span>
+                                                }
+                                            }
+                                        </span>
+
+
+                                    </td>
+
+                                    <td class="col-lg-7">
+                                        sent to:
+                                        <br />
+                                        <br />
+
+                                        @foreach (var user in MvcProject.Controllers.HomeController.client.Users())
+                                        {
+                                            if (user.Id == op.Order.User.Id)
+                                            {
+                                                @:Name: @user.UserName
+                                                <br />
+                                                @:Country:  @user.Country
+                                                <br />
+                                                @:Adress: @user.City , @user.Street_number, @user.Zip_Code
+                                               }
+
+                                        }
+                                    </td>
+                                </tr>
+                                                    }
+                                                }
+                    }
+                    @if (ordpn == 0)
+                    {
+                        <tr>there is no products that been bought from this user</tr>
+                    }
+                    else if (ordpn >= 3)
+                    {
+                        <tr class="row">
+                            <td><a href=""><span class="glyphicon glyphicon-download text-center col-lg-12"></span> </a></td>
+                        </tr>
+                    }
+
+
+
+
+                </table>
+
+
+
+            </div>
+
+        </div>
+
+
+       
+        <div id="Cart">
+            <div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-10 col-md-offset-1">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th class="text-center">Price</th>
+                                    <th>Estimated shipping</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{decimal sum = 0; decimal shipping = 0; decimal totatl = 0; int it = 0;}
+                                @foreach (var orp in MvcProject.Controllers.HomeController.client.GetOrderProducts())
+                                {
+
+                                    if (orp.Order.DateOfPayment == null && orp.Order.BuyerId == Model.Id)
+                                    {
+                                        <tr>
+                                            <td class="col-sm-8 col-md-6">
+                                                <div class="media">
+                                                    <a class="thumbnail pull-left" href="/home/Product_Page/@orp.ProductId"> <img class="orderp-img media-object" src="@Html.Raw(orp.Product.Images[0].img)" style="width: 72px; height: 72px;"> </a>
+
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading"><a href="/home/Product_Page/@orp.ProductId">@orp.Product.Name</a></h4>
+                                                        <h5 class="media-heading"> by <a href="/home/Product_Page/@orp.ProductId">@orp.Product.User.UserName</a></h5>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="col-sm-1 col-md-1" style="text-align: center">
+                                                <input type="number" min="0" max="10" class="form-control" onchange="duplicate(this,)" id="exampleInputEmail1" value="@orp.Quantity">
+                                            </td>
+
+                                            <td class="col-sm-1 col-md-1 text-center"><strong>@orp.Product.Price</strong></td>
+                                            @{
+                                                string r = orp.Quantity.ToString();
+                                                sum += decimal.Parse(orp.Product.Price.ToString()) * decimal.Parse(r);
+                                            }
+
+
+
+                                            @{shipping = decimal.Parse(MvcProject.Controllers.HomeController.client.GetShipping_Companys().FirstOrDefault().Shipping_Cost.ToString());
+                    totatl += sum + shipping;
+                    decimal SubTotatl = sum + shipping;
+                    sum = 0;
+                                            }
+                                            <td class="col-sm-1 col-md-1 text-center price"><strong>@shipping</strong></td>
+                                            <td>
+                                                <script>
+                                                    $(function duplicate (em,i){
+                                                        $(em).bind('keyup change click',function (e) {
+                                                            var d=$(this).val();
+                                                            var price=d *@orp.Product.Price;
+                                                            $("#"+i).html(price);
+                                                            var total=e+int.Parse(@shipping);
+                                                            $("#Totatl").html(total);
+                                                        });
+
+                                                    });
+                                                </script>
+                                               
+                                            </td>
+                                            <td>   </td>
+                                            <td class="col-sm-1 col-md-1">
+                                                <button type="button" class="btn btn-danger">
+                                                    <span class="glyphicon glyphicon-remove"></span> Remove
+                                                </button>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            @*<td>   </td>
+                                                <td>   </td>
+                                                <td>   </td>
+                                                <td><h5>Estimated shipping</h5></td>*@
+
+
+
+                                            @*<td class="text-right"><h5><strong>$ @shipping</strong></h5></td>*@
+
+
+
+                                        </tr>
+                                        <tr>
+                                            <td>   </td>
+                                            <td>   </td>
+                                            <td>   </td>
+                                            <td><h5>Subtotal </h5></td>
+                                            @{it++; }
+                                            <td  id="@it"  class="text-right"><h5><strong> $ @SubTotatl</strong></h5></td>
+                                        </tr>
+                                                    }
+                                                }
+
+
+                                <tr>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td><h3>Total</h3></td>
+
+
+                                    <td class="text-right" id="Totatl" ><h3><strong>$ @totatl</strong></h3></td>
+                                </tr>
+                                <tr>
+                                    <td>  <script>
+                                                    $(function(){
+                                                      
+                                                        $("#Totatl").html(($(".price").html())+@shipping);
+                                                      
+
+                                                    });
+</script> </td>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td>
+                                        <a href="/home/index" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/home/Checkout" class="btn btn-success">
+                                            Checkout <span class="glyphicon glyphicon-play"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</p>
+
+<div style="width:50%; height:50%">
+
+</div>
+<footer></footer>
+
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+            function RemoveO(id)
+            {
+                $.ajax({
+                    url: "/Home/RemoveOrderProduct? orderProductId=" + id,
+                    type: "Get",
+
+                });
+
+            }
+
+            $("#we").click(function () {
+                $("#selling").html("contact");
+                $("#link").attr("href", "/home/contactus");
+                $("#him").click(function () {
+                    $("#selling").html("sell new product");
+                    $("#link").attr("href", "/home/sellnewproduct")
+                })
+                if (buyer) {
+                    $("#we").ajaxSend()
+                }
+            });
+
+
+
+
+            //$(".rate").mouseenter(function () { $(this).css("color", "orange") });
+            //$(".rate").hover(function () { $(this).css("color", "orange") });
+            //$(".rate").mouseleave(function () { $(this).css("color", "black") });
+
+
+
+
+            //$(".rate").click(function () {
+            //    var e  = $(this).attr('id');
+            //    var e =this.id;
+            //    for (var i = 0; i < e; i++) {
+            //        $("#"+i).hover(function () { $(this).css("color", "black") });
+            //    }
+
+
+
+            $(".rate").hover(function () { $(this).addClass("been-rate") });
+
+            //$(".rate").mouseleave(function () {
+            //    var e = $(this).attr('id');
+            //       var e =this.id;
+            //       for (var i = 0; i < e; i++) {
+            //           $("#"+i).removeClass("been-rate");
+
+            //       }
+
+            //});
+
+
+            $(function () {
+                $('#search').autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "StudentService.asmx/GetStudentNames",
+                            data: "{ 'searchTerm': '" + request.term + "' }",
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json;charset=utf-8",
+                            success: function (data) {
+                                response(data.d);
+                            },
+                            error: function (result) {
+                                alert('There is a problem processing your request');
+                            }
+                        });
+                    },
+                    minLength: 0
+                });
+            });
+            $(function () {
+
+                source: function checkout(id) {
+                    $.ajax({
+                        url: "/Home/CheckOut? id=" + id,
+                        type: "Get",
+
+                    });
+                }
+            });
+
+    </script>
+}

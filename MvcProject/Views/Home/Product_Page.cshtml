@@ -1,0 +1,418 @@
+﻿@{MvcProject.BuyNet.Product P = (MvcProject.BuyNet.Product)ViewBag.Product; }
+
+@{
+    ViewBag.Title = "Product_Page";
+}
+<head>
+    <script>
+            $(document).ready(function () {
+                
+                var end = new Date(2015, 08, 08,10,0,0,0);
+                var _second = 1000;
+                var _minute = _second * 60;
+                var _hour = _minute * 60;
+                var _day = _hour * 24;
+                var timer;
+
+                function showRemaining() {
+                    var now = new Date();
+                    var distance = end - now;
+                    if (distance < 0) {
+
+                        clearInterval(timer);
+                        document.getElementById("time").innerHTML = 'EXPIRED!';
+
+                        return;
+                    }
+                    var days = Math.floor(distance / _day);
+                    var hours = Math.floor((distance % _day) / _hour);
+                    var minutes = Math.floor((distance % _hour) / _minute);
+                    var seconds = Math.floor((distance % _minute) / _second);
+
+                    document.getElementById("time").innerHTML = days + 'd ';
+                    document.getElementById("time").innerHTML += hours + 'h ';
+                    document.getElementById("time").innerHTML += minutes + 'm ';
+                    document.getElementById("time").innerHTML += seconds + 's';
+
+                }
+
+                timer = setInterval(showRemaining, 1000);
+            
+            });
+    </script>
+    <style>
+        .carousel {
+            width: 600px;
+        }
+
+        /* Indicators list style */
+        .article-slide .carousel-indicators {
+            bottom: 0;
+            left: 0;
+            margin-left: 5px;
+            width: 100%;
+        }
+            /* Indicators list style */
+            .article-slide .carousel-indicators li {
+                border: medium none;
+                border-radius: 0;
+                float: left;
+                height: 54px;
+                margin-bottom: 5px;
+                margin-left: 0;
+                margin-right: 5px !important;
+                margin-top: 0;
+                width: 100px;
+            }
+            /* Indicators images style */
+            .article-slide .carousel-indicators img {
+                border: 2px solid #FFFFFF;
+                float: left;
+                height: 54px;
+                left: 0;
+                width: 100px;
+            }
+            /* Indicators active image style */
+            .article-slide .carousel-indicators .active img {
+                border: 2px solid #428BCA;
+                opacity: 0.7;
+    </style>
+</head>
+
+
+
+
+
+<section id="upper" class="row">
+    <div id="left" class="col-lg-6">
+
+        <hr />
+
+        @*<div class="carousel slide article-slide" id="article-photo-carousel">
+                @{int counter = 0; string s; }
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner cont-slider">
+
+
+                    @foreach (var item in P.Images)
+                    {
+                        counter++;
+                        s = counter == 0 ? "active" : string.Empty;
+
+                        <div class='item @s'>
+                            <img alt="" title="" src="@item.img" style="width:600px;height:400px">
+                        </div>
+                    }
+                </div>
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+
+                    @{counter = 0; }
+                    @foreach (var item in P.Images)
+                    {
+
+                        s = counter == 0 ? "active" : string.Empty;
+
+                        <li class="@s" data-slide-to="@(counter++)" data-target="#article-photo-carousel">
+                            <img alt="" src="@item.img" style="width:250px;height:180px">
+                        </li>
+                    }
+
+                </ol>
+
+
+
+
+            </div>*@
+        <br />
+
+        <img id="cityscape2" src="@P.Images[0].img" width="350" height="350" alt="" border="0" />
+        @foreach (var item in P.Images)
+        {
+            <img class="inner" onmouseover="fla(this)" src="@Html.Raw(item.img)" width="50" height="50" />
+        }
+
+        <style type="text/css">
+            .mglass_wrapper_city {
+                margin: 0px auto;
+            }
+
+            .mglass_viewer_city {
+                width: 300px;
+                height: 300px;
+                border: 1px solid white;
+            }
+        </style>
+
+        <script type="text/javascript">
+
+            function fla(att) {
+                document.getElementById("#cityscape2").src = att.src;
+            }
+
+
+            var config2 = {
+                wrapperClassName: "mglass_wrapper mglass_wrapper_city",
+                viewerClassName: "mglass_viewer mglass_viewer_city"
+            };
+           // new MGlass("cityscape2", "images/scottwills_cityscape2.jpg", config2);
+        </script>
+        @*<div class="carousel slide article-slide" id="article-photo-carousel ">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner cont-slider ">
+
+                    <div class="item active">
+                        <img alt="" title="@P.Images[0].img" src="@P.Images[0].img" class="img-responsive">
+                    </div>
+                    @foreach (var item in P.Images)
+                    {
+
+                        <div class="item">
+                            <img alt="@P.Name" title="" src=" Html.Raw(item.img)">
+                        </div>
+                    }
+
+                </div>
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    @{int j = 0; }
+                    <li class="active" data-slide-to="@j" data-target="#article-photo-carousel">
+                        <img alt="" src="http://placehold.it/250x180">
+                    </li>
+                    @foreach (var item in P.Images)
+                    {
+                        j++;
+                        <li class="" data-slide-to="@j" data-target="#article-photo-carousel">
+                            <img alt="" src="@Html.Raw(item.img)">
+                        </li>
+                    }
+
+
+                </ol>
+            </div>*@
+    </div>
+
+    <div id="right" class="col-lg-6">
+        <br />
+        <br />
+        <h2>@P.Name</h2>
+        <br />
+        <label><span style="color:darkblue">Description:</span> @P.Description</label>
+        <br />
+        <label><span style="color:darkblue">Condition:</span> New @P.Condition</label>
+        <br />
+@if (P.Date == null) { 
+        <label><span style="color:darkblue">Price:</span> @P.Price $</label>
+        <br />
+}
+        <label>
+            <span style="color:darkblue">
+                Rate: @for (int i = 0; i < @P.Rating; i++)
+                {
+                    <span class="bottom glyphicon glyphicon glyphicon-star" style="color:orange"></span>
+                }
+                @if (@P.Rating < 5)
+                {
+                    for (int i = 0; i < (5 - @P.Rating); i++)
+                    {
+                        <span class="bottom glyphicon glyphicon glyphicon-star" style="color:lightblue"></span>
+                    }
+                }
+            </span>
+        </label>
+        <br />
+        <label><span style="color:darkblue">Seller:</span> @P.User.UserName</label>
+        <br />
+        <div class="row">
+            @if (P.Date == null)
+            {
+                <a href="/home/YourDeatails?productId=@P.Id" class="btn btn-primary col-xs-3 ">Buy Now</a>
+                <a href="/home/AddToCart?product=@P.Id" class="btn btn-primary col-xs-3 col-lg-offset-1">Add To Cart</a>
+
+            }
+            else
+            {
+         
+                    <div class="col-lg-9 ">
+                        <h5 id="p_name"></h5>
+                        <h5><span style="color:darkblue"><b>Price Now :</b>&nbsp;</span><b style="color:black;font-size:24px">@P.Price $</b> <b id="p_price"></b>  <small>or best offer</small> </h5>
+                        <div style="color:darkblue"><span style="color:darkblue"><b>Time left :</b></span> &nbsp;<b style="color:darkred;font-size:16px;" id="time"></b></div><br />
+                        <input type="text" id="price" class="nav navbar-nav form-control" placeholder="set a bit !" style="height:40px;max-width:100px;padding:3px; font-size:20px" maxlength="7" />&nbsp;
+                         <input type="submit" class="btn btn-success btn-lg " value="Make Offer"><br />
+                        <br />
+                        <a href="/home/AddToCart?product=@P.Id" class="btn btn-primary col-xs-3 col-lg-offset-1">Add To Cart</a>
+
+                    </div>
+        
+
+            }
+        </div>
+       
+    </div>
+</section>
+<section id="lower">
+    <p class="user_body col col-sm-3 text-center">
+
+        <ul class="nav nav-tabs ">
+
+            <li class="active"><a id="we" data-toggle="tab" href="#seller">Seller</a></li>
+            <li><a id="him" data-toggle="tab" href="#Raiting">Raiting</a></li>
+            <li><a data-toggle="tab" href="#Shipping">Shipping</a></li>
+
+
+        </ul>
+        <div class="tab-content">
+            <div id="seller" class="tab-pane fade in active">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>@P.User.UserName</h2>
+                        @{  string image = P.User.Images.FirstOrDefault() == null ? "/pics/emptyImage.jpg" : P.User.Images[0].img;}
+                        <img src="@Html.Raw(image)" width="300" />
+                    </div>
+                    <div>
+                        <br />
+                        <br />
+                        <br />
+                        <label>@P.User.Country</label>
+
+                        <br />
+
+                        <label>@P.User.Notes</label>
+                        <br />
+
+                        <a href="/home/contactus">@P.User.Email</a>
+                        <br />
+                        <br />
+                        <br />
+                        <label>&copy;@P.User.UserName</label>
+                    </div>
+                </div>
+
+            </div>
+            <div id="Raiting" class="tab-pane fade ">
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>UserName</th>
+                                <th>Country</th>
+                                <th>Rate<span id="sap-pnl-wrap-help-time" style="margin-left: 10px;"></span></th>
+                                <th>Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int num = 1;
+                                MvcProject.BuyNet.OrderProduct[] items = MvcProject.Controllers.HomeController.client.GetOrderProducts();
+                            }
+
+                            @for (int j = (num - 1) * 4; j < items.Count() && j < num * 4; j++)
+
+                            {
+
+
+                                <tr>
+                                    <td>@items[j].Order.User.UserName</td>
+                                    <td>@items[j].Order.User.Country</td>
+                                    <td>
+                                        @for (int i = 0; i < @items[j].Product.Rating; i++)
+                                        {
+                                            <span class="bottom glyphicon glyphicon glyphicon-star" style="color:orange"></span>
+                                        }
+                                        @if (@items[j].Product.Rating < 5)
+                                        {
+                                            for (int i = 0; i < (5 - @items[j].Product.Rating); i++)
+                                            {
+                                                <span class="bottom glyphicon glyphicon glyphicon-star" style="color:lightblue"></span>
+                                            }
+                                        }
+
+                                    </td>
+                                    <td>user feedback : about the delivery ,the product it`s self and the seller </td>
+                                </tr>
+
+                            }
+
+
+
+
+
+
+
+
+                            <div> NEXT </div>
+
+
+
+
+                        </tbody>
+
+                    </table>
+
+
+
+                </div>
+
+            </div>
+            <div id="Shipping" class="tab-pane fade">
+                <table id="sap-shippinglist" border="1" cellpadding="10">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Shipping Company</th>
+                            <th>Shipping Cost</th>
+                            <th>Estimated Delivery Time<span id="sap-pnl-wrap-help-time" style="margin-left: 10px;"></span></th>
+                            <th>Processing Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="logo"><img src="http://i02.i.aliimg.com/wimg/buyer/single/icon-ups-e.gif" alt="UPS Expedited™" title="UPS Expedited™"></td>
+                            <td class="company">UPS Expedited</td>
+                            <td class="price">
+    <p><span class="originalFrieght"><del class="ui-cost">US $320.31</del></span> <span class="frieght"><span class="free">Free Shipping</span></span></p>
+
+    </td>
+    <td class="time">4-7 days<br><span class="time-tips"></span></td>
+
+    <td class="processing" rowspan="3">12 days</td>
+
+    </tr>
+
+    <tr>
+        <td class="logo">FEDEX_IE</td>
+        <td class="company">Fedex IE</td>
+        <td class="price">
+            <p><span class="originalFrieght"><del class="ui-cost">US $182.28</del></span> <span class="frieght"><span class="free">Free Shipping</span></span></p>
+
+        </td>
+        <td class="time">4-7 days<br><span class="time-tips"></span></td>
+
+    </tr>
+
+    <tr>
+        <td class="logo"><img src="http://i02.i.aliimg.com/wimg/buyer/single/icon-ems.jpg" alt="EMS" title="EMS"></td>
+        <td class="company">EMS</td>
+        <td class="price">
+            <p><span class="originalFrieght"></span> <span class="frieght"><span class="ui-cost"><b>US $156.47</b></span></span></p>
+
+        </td>
+        <td class="time">7-20 days<br><span class="time-tips"></span></td>
+
+    </tr>
+
+    </tbody>
+    </table>
+
+    </p>
+</section>
+
+
+
+
+<script>
+    $('.carousel').carousel({
+        interval: false
+    });
+</script>

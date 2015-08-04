@@ -1,0 +1,163 @@
+﻿
+@model MvcProject.BuyNet.User
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+
+@Html.Partial("Login")
+
+
+</head>
+<body>
+ 
+    <div class="navbar navbar-inverse navbar-fixed-top" style="margin-left: -100px;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+           
+
+                @Html.ActionLink("BuyNet", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+            </div>
+
+
+            <div class="navbar-collapse collapse" style="position:absolute;margin-left: -140px;">
+
+                <ul class="nav navbar-nav ">
+                    <li>
+                        <div class="col-lg-3" style="padding-left:300px">
+
+                            <div class="input-group" style="position:absolute;padding-top: 10px;align-content:center;margin-left: 190px;">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+
+                                <input id="searchbox" style="position: fixed;" type="text" class="form-control" placeholder="Search for...">
+                                <div style="position:absolute">
+                                    <ul class=" nav-list bs-docs-sidenav" style="padding-top:34px; position:fixed" id="options">
+                                        @*here we bring the result by Search*@
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+
+                </ul>
+
+            </div>
+
+
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container-fluid" style="padding-top: 31px; margin-right: -19px">
+
+
+
+        @RenderBody()
+
+
+        @RenderSection("scripts", required: false)
+
+
+        <script>
+            $(function () {
+                $("#dialog-modal").dialog({
+                    autoOpen: false,
+                    width: 480,
+                    height: 490,
+                    hidden: true,
+                    disable: 'none',
+                    show: {
+                        effect: "blind",
+                        duration: 1000
+                    },
+                    hide: {
+                        effect: "explode",
+                        duration: 1000
+                    }
+                });
+
+                $("#loginLink").click(function (e) {
+                    e.preventDefault();
+                    $("#dialog-modal").dialog("open");
+                    
+                });
+            });
+
+            function onSuccess() {
+                $("#dialog-modal").dialog("close");
+            }
+        </script>
+        <script>
+
+            $(document).click(function () {
+                $.each($('#options'), function (i, item) {
+                    $('.opt').remove();
+                }
+             )
+            });
+
+            $('#searchbox').keyup(function () {
+
+
+                $.each($('#options'), function (i, item) {
+                    $('.opt').remove();
+                })
+
+                var t = document.getElementById('searchbox').value;
+                $.getJSON("/Home/SearchActionMethod", { word: t },
+                    function (data) {
+                        console.log('in');
+                        var ul = $('#options');
+                        var ref = "";
+                        $.each(data, function (i, item) {
+                            if (item.Key[0] == "pro") ref = "/home/Product_Page?id=" + item.Value;
+                            if (item.Key[0] == "com") ref = "#"; // company View Not Found
+                            if (item.Key[0] == "cat") ref = "/home/Category?category=" + item.Key[1];
+                            if (item.Key[0] == "sub") ref = "/home/SubCategory?subcategory=" + item.Key[1];
+
+                            console.log(ref);
+                            ul.addClass("nav nav-list bs-docs-sidenav ");
+                            ul.append("<li class='opt dropdown-toggle' style='background-color:white;width:280px;position:relative'><a href='" + ref + "'style='text-decoration:none'>" + item.Key[1] + "</a></li>");
+                        });
+                    }
+                );
+            })
+
+
+        </script>
+ 
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - BuyNet Application</p>
+            <span>
+                @Html.ActionLink("Contact Us", "contactus", "home", routeValues: null, htmlAttributes: new { id = "registerLink" })/s 
+            </span>
+       
+        </footer>
+    </div>
+
+
+</body>
+
+</html>

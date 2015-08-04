@@ -1,0 +1,157 @@
+﻿@model MvcProject.BuyNet.Product
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+
+@using (Html.BeginForm("AddProduct", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Add New Product</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Condition, "New Item", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Condition)
+                    @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+       
+        <script language="javescript">
+            function foo() {
+                alert("sasad");
+                var cat = document.getElementById("categories");
+                var catArr = @MvcProject.Controllers.HomeController.client.SubCategories().ToList();
+                for (var i = 0; i < @MvcProject.Controllers.HomeController.client.SubCategories().Length ; i++)
+                {
+                    if (carrArr[i].name == item.name)
+                    {
+                        document.getElementById("sub").value = carrArr[i].value;
+                    }
+                }
+            }
+        </script>
+            
+
+        
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="categories" onselect="foo()" class="col-md-10">
+                    @{
+                        foreach (var item in MvcProject.Controllers.HomeController.client.GetCategories())
+                        {
+                            @:
+                            <option onselect="foo();">@item.Name</option>
+                        }
+                    }
+
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, "SubCategory", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                <select id="sub" class="col-md-10">
+                    @{
+                        foreach (var item in MvcProject.Controllers.HomeController.client.SubCategories())
+                        {
+                            @:
+                            <option selected>@item.Name</option>
+                        }
+                    }
+
+                </select>
+
+
+            </div>
+        </div>
+        <table style="margin-left:10%">
+            <tr>
+                <td style="text-align:left; font:14 bold">
+                   <b>Add Picture</b> 
+                </td>
+                <td>
+
+                    <div class="col-md-10" ng-app="mine" ng-controller="fileController">
+                        <input type="file" id="image" name="picture" ng-model="picture" value="Select Picture" >
+                    </div>
+                </td>
+            </tr>
+        </table><br />
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+   <script>
+       var dom=angular.module('mine',[]);
+       dom.controller(('fileController'), function($scope){
+           $scope.value="1222";
+       });  
+       // From <input> node
+       var elm = document.getElementById('image'),
+           img = elm.files[0],
+           fileName = img.name, // not path
+           fileSize = img.size; // bytes
+
+       // By Parsing File
+       var reader = new FileReader(),
+           binary, base64;
+       reader.addEventListener('loadend', function () {
+           binary = reader.result; // binary data (stored as string), unsafe for most actions
+           base64 = btoa(binary); // base64 data, safer but takes up more memory
+       }, false);
+       reader.readAsBinaryString(img);
+       $("form").validate()
+
+    </script>                     }
+ 
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+   
+    @Scripts.Render("~/bundles/jqueryval")
+}

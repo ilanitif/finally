@@ -1,0 +1,367 @@
+﻿@{
+    ViewBag.Title = "NavigationBar";
+}
+<style>
+    .sticky {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        border-top: 0;
+    }
+
+    .menu, .menu ul, .menu ul li, .menu ul li a {
+        margin: 0px auto;
+        padding: 0;
+        border: 0;
+        list-style: none;
+        line-height: 1;
+        display: block;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .menu {
+        width: 200px;
+        font-family: Helvetica, Arial, sans-serif;
+        color: #ffffff;
+    }
+
+        .menu ul ul {
+            display: none;
+        }
+
+    .align-right {
+        float: right;
+    }
+
+    .menu > ul > li > a {
+        padding: 15px 20px;
+        border-left: 1px solid rgba(0, 0, 0, 0.35);
+        border-right: 1px solid rgba(0, 0, 0, 0.35);
+        border-top: 1px solid rgba(0, 0, 0, 0.35);
+        cursor: pointer;
+        z-index: 2;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #ffffff;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+        background: #000000;
+    }
+
+        .menu > ul > li > a:hover, .menu > ul > li.active > a, .menu > ul > li.open > a {
+            color: white;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+    .menu > ul > li.open > a {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.15);
+        border-bottom: 1px solid #32373e;
+    }
+
+    .menu > ul > li:last-child > a, .menu > ul > li.last > a {
+        border-bottom: 1px solid #32373e;
+    }
+
+    .holder {
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+        .holder::after, .holder::before {
+            display: block;
+            position: absolute;
+            content: "";
+            width: 6px;
+            height: 6px;
+            right: 20px;
+            z-index: 10;
+            -webkit-transform: rotate(-135deg);
+            -moz-transform: rotate(-135deg);
+            -ms-transform: rotate(-135deg);
+            -o-transform: rotate(-135deg);
+            transform: rotate(-135deg);
+        }
+
+        .holder::after {
+            top: 17px;
+            border-top: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+        }
+
+    .menu > ul > li > a:hover > span::after, .menu > ul > li.active > a > span::after, .menu > ul > li.open > a > span::after {
+        border-color: #eeeeee;
+    }
+
+    .holder::before {
+        top: 18px;
+        border-top: 2px solid;
+        border-left: 2px solid;
+        border-top-color: inherit;
+        border-left-color: inherit;
+    }
+
+    .menu ul ul li a {
+        cursor: pointer;
+        border-bottom: 1px solid #32373e;
+        border-left: 1px solid #32373e;
+        border-right: 1px solid #32373e;
+        padding: 10px 20px;
+        z-index: 1;
+        text-decoration: none;
+        font-size: 13px;
+        color: #eeeeee;
+        background: #49505a;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .menu ul ul li:hover > a, .menu ul ul li.open > a, .menu ul ul li.active > a {
+        background: #32373e;
+        color: #ffffff;
+    }
+
+    .menu ul ul li:first-child > a {
+        box-shadow: none;
+    }
+
+    .menu ul ul ul li:first-child > a {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .menu ul ul ul li a {
+        padding-left: 30px;
+    }
+
+    .menu > ul > li > ul > li:last-child > a, .menu > ul > li > ul > li.last > a {
+        border-bottom: 0;
+    }
+
+    .menu > ul > li > ul > li.open:last-child > a, .menu > ul > li > ul > li.last.open > a {
+        border-bottom: 1px solid #32373e;
+    }
+
+    .menu > ul > li > ul > li.open:last-child > ul > li:last-child > a {
+        border-bottom: 0;
+    }
+
+    .menu ul ul li.sub > a::after {
+        display: block;
+        position: absolute;
+        content: "";
+        width: 5px;
+        height: 5px;
+        right: 20px;
+        z-index: 10;
+        top: 11.5px;
+        border-top: 2px solid #eeeeee;
+        border-left: 2px solid #eeeeee;
+        -webkit-transform: rotate(-135deg);
+        -moz-transform: rotate(-135deg);
+        -ms-transform: rotate(-135deg);
+        -o-transform: rotate(-135deg);
+        transform: rotate(-135deg);
+    }
+
+    .last a {
+        background-color: grey;
+    }
+
+    .menu ul ul li.active > a::after, .menu ul ul li.open > a::after, .menu ul ul li > a:hover::after {
+        border-color: #ffffff;
+    }
+</style>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            $('.menu li.sub>a').on('click', function () {
+                // $(this).removeAttr('href');
+                var element = $(this).parent('li');
+                if (element.hasClass('open')) {
+                    element.removeClass('open');
+                    element.find('li').removeClass('open');
+                    element.find('ul').slideUp();
+                }
+                else {
+                    element.addClass('open');
+                    element.children('ul').slideDown();
+                    element.siblings('li').children('ul').slideUp();
+                    element.siblings('li').removeClass('open');
+                    element.siblings('li').find('li').removeClass('open');
+                    element.siblings('li').find('ul').slideUp();
+                }
+            });
+
+            $('.menu>ul>li.sub>a').append('<span class="holder"></span>');
+
+            (function getColor() {
+                var r, g, b;
+                var textColor = $('.menu').css('color');
+                textColor = textColor.slice(4);
+                r = textColor.slice(0, textColor.indexOf(','));
+                textColor = textColor.slice(textColor.indexOf(' ') + 1);
+                g = textColor.slice(0, textColor.indexOf(','));
+                textColor = textColor.slice(textColor.indexOf(' ') + 1);
+                b = textColor.slice(0, textColor.indexOf(')'));
+                var l = rgbToHsl(r, g, b);
+                if (l > 0.7) {
+                    $('.menu>ul>li>a').css('text-shadow', '0 1px 1px rgba(0, 0, 0, .35)');
+                    $('.menu>ul>li>a>span').css('border-color', 'rgba(0, 0, 0, .35)');
+                }
+                else {
+                    $('.menu>ul>li>a').css('text-shadow', '0 1px 0 rgba(255, 255, 255, .35)');
+                    $('.menu>ul>li>a>span').css('border-color', 'rgba(255, 255, 255, .35)');
+                }
+            })();
+
+            function rgbToHsl(r, g, b) {
+                r /= 255, g /= 255, b /= 255;
+                var max = Math.max(r, g, b), min = Math.min(r, g, b);
+                var h, s, l = (max + min) / 2;
+
+                if (max == min) {
+                    h = s = 0;
+                }
+                else {
+                    var d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+                return l;
+            }
+        });
+
+    })(jQuery);
+
+    function pageload(page,param,id) {
+
+        $.ajax({
+            url: '/home/' + page + '?'+param+'=' +encodeURIComponent(id),
+            type: 'Post',
+            dataType: 'html'
+        })
+        .success(function (resulat) {
+
+            $("#Curent").html(resulat);
+        })
+    }
+</script>
+
+
+
+@{int i = 0;
+            Dictionary<string, string> c = new Dictionary<String, String>();
+            foreach (var cat in MvcProject.Controllers.HomeController.client.GetCategories())
+            {
+                c.Add((i++).ToString(), cat.Name);
+                foreach (var sub in MvcProject.Controllers.HomeController.client.SubCategories())
+                {
+                    if (sub.Parent == cat.Id)
+                    {
+                        c.Add(sub.Name, cat.Name);
+                    }
+                }
+
+            }
+
+}
+
+
+
+
+<div class='menu'>
+
+    <ul>
+        @{
+            foreach (var cate in MvcProject.Controllers.HomeController.client.GetCategories())
+            {
+                @:
+                <li class='active sub'>
+                    <a onclick='pageload("Category","Category","@cate.Name")'>@cate.Name</a>
+                    @*// @Html.ActionLink(cate.Name, "Category", cate.Name)*@
+                    <ul>
+                        @foreach (var s in MvcProject.Controllers.HomeController.client.SubCategories())
+                        {
+                            if (s.ParentCategory.Name == cate.Name)
+                            {
+                                @:
+                                <li class='sub' id="@s.Name">
+                                    <a onclick="pageload('Subcategory','subcategory','@s.Name')">@s.Name</a>
+                                    <ul>
+                                        @foreach (var ss in MvcProject.Controllers.HomeController.client.SubCategories())
+                                        {
+                                            if (ss.ParentCategory.Name == s.Name)
+                                            {
+
+                                                <li class="last"><a onclick="pageload('Subcategory',subcategory,'@ss.Name')">@ss.Name</a></li>
+                                            }
+
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        }
+
+
+
+                    </ul>
+                </li>
+
+            }
+        }
+
+    </ul>
+</div>
+@*</div>*@
+@section scripts{
+    <script>
+
+        
+
+        $(function () {
+            $('#category').on('change', function () {
+
+                var c = $('#category').val();
+                $('#subcategory option').hide();
+                $('#subcategory option[value="' + c + '"]').show();
+                $("#subcategory").val($('#subcategory option[value="' + c + '"]:first').val());
+
+            });
+            $("ul").dataTable()
+        });
+
+        $(document).ready(function () {
+            var stickyNavTop = $('.navbar-left').offset().top;
+
+            var stickyNav = function () {
+                var scrollTop = $(window).scrollTop();
+
+                if (scrollTop > stickyNavTop) {
+                    $('.nav').addClass('sticky');
+                } else {
+                    $('.nav').removeClass('sticky');
+                }
+            };
+
+            stickyNav();
+
+            $(window).scroll(function () {
+                stickyNav();
+            });
+        });
+
+
+
+    </script>
+}

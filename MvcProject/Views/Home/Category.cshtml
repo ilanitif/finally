@@ -1,0 +1,39 @@
+﻿@model MvcProject.BuyNet.Category
+@{
+    ViewBag.Title = "Category";
+}
+
+<h2>@Model</h2>
+<div class="col-lg-12">
+    @{int div = 0;
+        string row = ":<div class='row'>";
+        string close_row = "</div>";
+
+        @:<a herf=> <span style="padding-left: 21px;padding-bottom: 11px;padding-top: 11px;color:black" id="span" class="glyphicon glyphicon-play">@Model.Name</span></a><br />
+
+
+
+
+        foreach (var item in MvcProject.Controllers.HomeController.client.GetProducts())
+        {
+            if ((item.Category.Id == Model.Id) || (item.Category.ParentCategory != null && item.Category.ParentCategory.Id == Model.Id) || (item.Category.ParentCategory.ParentCategory != null && item.Category.ParentCategory.ParentCategory.Id == Model.Id))
+            {
+                <div class="col-lg-4">
+                    @Html.Partial("ProductView", item)
+                </div>
+                div++;
+                if (div == 3)
+                {
+                    div = 0;
+                    
+                       @Html.Raw(close_row);
+                       @Html.Raw(row);
+                  
+
+                }
+                
+
+            }
+        }
+    }
+</div>

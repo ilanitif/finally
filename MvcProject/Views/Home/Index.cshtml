@@ -1,0 +1,355 @@
+﻿@model MvcProject.BuyNet.User
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    .nav-style {
+    padding-left: 2px;
+    margin-top: -9px;
+    margin-left: -19px;
+}
+
+  td{
+     padding:10px;
+ }
+
+</style>
+<link href="http://style.aliunicorn.com/css/6v/??run/wholesale/reset.css,run/wholesale/font.css,apollo/core/core-ws.css?t=133438bc8_3337ca690" rel="stylesheet" type="text/css" media="all" />
+
+
+  
+    <div class="row-fluid pull-right"  id="seen" style="width:1490px"  >
+        <div class="col-lg-1" id="Nav" >
+            <div class="nav-style">
+                <br/>
+                @Html.Partial("NavigationBar")
+            </div>
+          
+        </div>
+
+        <div class="col-lg-7" id="Curent" style="margin-left: 75px;
+    width: 911px;" >
+
+        </div>
+        <div class="col-lg-3 pull-right"  >
+
+            <div class="col-sm-12">
+                <div >
+                    <br/>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div style="font-weight: bolder;font-size:24PX">
+                                <h4>see what your <span style="color:cornflowerblue; font-weight:900"><img src="/pics/imsages.jpg" /></span> friend`s bought</h4>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            <table style="empty-cells:hide;text-overflow:ellipsis;overflow:hidden;padding:20px;">
+                                <tr>
+                                    <td>
+                                        <img src="~/pics/profile2.jpg" width="60" height="50" />
+                                    </td>
+                                    <td style="font-size:16px">
+                                        <a href="" style="color:cornflowerblue"><b>Ilanit Farda</b></a>
+                                        <br />
+                                        has a <a href="" style="color:orange; font-weight:bold">Galaxy 6</a>
+                                    </td>
+                                    <td>
+                                        <img src="~/pics/[Phones & Telecommunications]/Galxy S5/GalxyS5.jpg" width="60" height="50" />
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <img src="~/pics/profile1.png" width="60" height="50" />
+                                    </td>
+                                    <td style="font-size:16px">
+                                        <a href="" style="color:cornflowerblue"><b>Daniel Gola</b></a>
+                                        <br />
+                                        has a <a href="" style="color:orange; font-weight:bold">SoneyPlastion </a>
+                                    </td>
+                                    <td>
+                                        <img src="~/pics/[Phones & Telecommunications]/Galxy S5/GalxyS5.jpg" width="60" height="50" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="~/pics/emptyImage.jpg" width="60" height="50" />
+                                    </td>
+                                    <td style="font-size:16px">
+                                        <a href="" style="color:cornflowerblue"><b>Natan Biest</b></a>
+                                        <br />
+                                        has a <a href="" style="color:orange; font-weight:bold">Ring</a>
+                                    </td>
+                                    <td>
+                                        <img src="~/pics/[Phones & Telecommunications]/Galxy S5/GalxyS5.jpg" width="60" height="50" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="~/pics/Users/Asher/asher.jpg" width="60" height="50" />
+                                    </td>
+                                    <td style="font-size:16px">
+                                        <a href="" style="color:cornflowerblue"><b>Asher Ababa</b></a>
+                                        <br />
+                                        has a <a href="" style="color:orange; font-weight:bold">Blaston</a>
+                                    </td>
+                                    <td>
+                                        <img src="~/pics/[Phones & Telecommunications]/Galxy S5/GalxyS5.jpg" width="60" height="50" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="~/pics/profile2.jpg" width="60" height="50" />
+                                    </td>
+                                    <td style="font-size:16px">
+                                        <a href="" style="color:cornflowerblue"><b>Ronit Micheali</b></a>
+                                        <br />
+                                        has a <a href="" style="color:orange; font-weight:bold">TV</a>
+                                    </td>
+                                    <td>
+                                        <img src="~/pics/[Phones & Telecommunications]/Galxy S5/GalxyS5.jpg" width="60" height="50" />
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="~/pics/profile2.jpg" width="60" height="50" />
+                                    </td>
+                                    <td style="font-size:16px">
+                                        <a href="" style="color:cornflowerblue"><b>Monika Levinsky</b></a>
+                                        <br />
+                                        has a <a href="" style="color:orange; font-weight:bold">Ferrari</a>
+                                    </td>
+                                    <td>
+                                        <img src="~/pics/[Phones & Telecommunications]/Galxy S5/GalxyS5.jpg" width="60" height="50" />
+                                    </td>
+
+                                </tr>
+                            </table>
+
+                            <div class="panel-footer">
+                                Login Via Facebook   <fb:login-button></fb:login-button>
+                            </div>
+                        </div>
+                        @*<div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h1>Live Auctions</h1>
+                            </div>
+                            <div class="panel-body">
+                                <img src="~/pics/iphone_PNG5736.png" width="100" />
+                                <a href="#" class="btn btn-success btn-lg ">PRICE : 50 USD</a>
+                            </div>
+
+                        </div>*@
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h1>Live Auctions</h1>
+                            </div>
+                            <div class="panel-body" id="pumbic_body">
+
+                                <div id="left" style="width:30%;float:left;align-items:center;">
+                                    <img id="p_pic" src="~/pics/iphone_PNG5736.png" style="width:100%" />
+                                </div>
+                                <div id="right" style="width:70% ;float:right">
+                                    <h3 id="p_name"></h3>
+                                    <h3>Price: <b id="p_price"></b>  <small>or best offer</small> </h3>
+                                    <div>Time left:&nbsp;<b style="color:darkred;font-size:16px;" id="time"></b></div>
+                                    <a href="/home/Product_Page/1037" class="btn btn-success btn-lg ">Make Offer</a>
+                                    <a href="pageload()" class="btn small">More Auction..</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            @{string FbFriend = "Your fb friend";}
+                            <h1>@FbFriend Start Selling</h1>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <img src="~/pics/profile2.jpg" width="60" height="50" />
+                                        </td>
+                                        <td style="font-size:16px">
+                                            <a href="" style="color:cornflowerblue"><b>Ilanit Farda</b></a>
+                                            <br />
+                                            has Started<a href="" style="color:orange; font-weight:bold">Selling</a>
+                                        </td>
+                                        <td>
+                                    </tr>
+                                </table>
+                            </p>
+                            <p>
+
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+
+                            </p>
+                            <p style="font-size:16px">
+                               <b style="color:red">selling</b> give you <b style="color:red">50% </b>discount in the same category products
+                               and guarantee you a constant advertising among your friend 
+                            </p>
+                         
+                        </div>
+
+                    </div>
+
+                   
+                </div>
+
+            </div>
+      
+        </div>
+    </div>
+
+</div>
+   
+
+
+    <script>
+       
+        function loadPage() {
+            $.get('/Home/Top3products', function (res) {
+                console.debug('load page');
+                //$('#Curent').html(res);
+                $('#Curent')[0].innerHTML = res;
+            });
+        }
+        //function loadPage() {
+        //    $.get('/Home/SubCategory?subcategory=IPhone`s', function (res) {
+        //        console.debug('load page');
+        //        $('#Curent').html(res);
+        //        $('#Curent')[0].innerHTML = res;
+        //    });
+        //}
+       
+  
+       
+        function Remove() {
+            var id = id;
+
+            var xMLHttpRequest = new XMLHttpRequest();
+            xMLHttpRequest.open("GET", "/Home/Top3products", true);
+            xMLHttpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xMLHttpRequest.send();
+            xMLHttpRequest.onreadystatechange = function () {
+                if (xMLHttpRequest.readyState == 4 && xMLHttpRequest.status != 200) {
+                    alert("Failed to load");
+                }
+                else {
+
+                    document.getElementById("Curent").innerHTML = xMLHttpRequest.responseText;
+                }
+            }
+        }
+        //Remove()
+            //function nav() {
+            //    var id = id;
+
+            //    var xMLHttpRequest = new XMLHttpRequest();
+            //    xMLHttpRequest.open("GET", "/Home/NavigationBar", true);
+            //    xMLHttpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            //    xMLHttpRequest.send();
+            //    xMLHttpRequest.onreadystatechange = function () {
+            //        if (xMLHttpRequest.readyState == 4 && xMLHttpRequest.status != 200) {
+            //            alert("failed to load")
+            //            document.getElementById("Nav").innerHTML = xMLHttpRequest.responseText;
+            //        }
+            //        else {
+
+            //            document.getElementById("Nav").innerHTML = xMLHttpRequest.responseText;
+            //        }
+            //    }
+            //}
+        loadPage();
+            //nav();
+
+            var e = document.getElementById("aComDiv");
+            var s = 1;
+
+            //setInterval(function () {
+
+            //    var eLeftPos = e.offsetLeft;
+            //    e.style.left = (eLeftPos + s) + 'px';
+            //    if (parseInt(e.style.left) > 1000) { e.style.left = '0px'; }
+
+            //}, 1000);
+        
+    </script>
+
+
+<script>
+    $.getJSON("/Home/FirstPumbicSale",
+                   function (data) {
+                       console.log(data);
+                       console.log(data[0]);
+                       var name = $('#p_name');
+                       var price = $('#p_price');
+                       name.append("<span >" + data[0] + "</span>");
+                       price.append("<span >" + data[1] + "$</span>");
+                       var temp_date = new Date(2015,7, 31, 15, 12,12,12);//Getting from Product (p.Date)
+                       show(temp_date);
+                   }
+               );
+
+    function show(end) {
+
+    var _second = 1000;
+    var _minute = _second * 60;
+    var _hour = _minute * 60;
+    var _day = _hour * 24;
+    var timer;
+
+    function showRemaining() {
+        var now = new Date();
+        var distance = end - now;
+        if (distance < 0) {
+
+            clearInterval(timer);
+            document.getElementById("time").innerHTML = 'EXPIRED!';
+
+            return;
+        }
+        var days = Math.floor(distance / _day);
+        var hours = Math.floor((distance % _day) / _hour);
+        var minutes = Math.floor((distance % _hour) / _minute);
+        var seconds = Math.floor((distance % _minute) / _second);
+
+        document.getElementById("time").innerHTML = days + 'd ';
+        document.getElementById("time").innerHTML += hours + 'h ';
+        document.getElementById("time").innerHTML += minutes + 'm ';
+        document.getElementById("time").innerHTML += seconds + 's';
+
+    }
+
+    timer = setInterval(showRemaining, 1000);
+    }
+
+
+    //Auction
+    function pageload() {
+        $.ajax({
+            url: '/home/getAuction',
+            type: 'Post',
+            dataType: 'html'
+        })
+        .success(function (resulat) {
+
+            $("#Curent").html(resulat);
+        })
+    }
+</script>
+        

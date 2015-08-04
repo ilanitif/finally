@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "ShoopingHistory";
+}
+
+<h2>Shooping History</h2>
+<hr />
+<br />
+
+@{User user = (User)Session["user"];
+  decimal sum=(decimal)Session["sum"];
+if (user == null || Model1.order == null ||sum==null)
+{
+    <span class="alert-warning">order was not found</span>
+}
+else
+{
+    <span style="font-weight:bold">
+        User Name:@user.UserName
+        <br />
+        User Id:@user.Id
+        <br />
+        <br />
+        <br />
+    </span>
+    <table border="1" cellpadding="10">
+        <thead style="color:blue;font-weight:bold">
+            <tr>
+                <td>Order Id Number</td>
+                <td>Time Of Order Payment</td>
+                <td>Total Price</td>
+                <td>press for more</td>
+            </tr>
+        </thead>
+        @foreach (var order in Model1.order)
+        {
+            if (order.Value.user.Id == user.Id && order.Value.TimeOfPayment != null)
+            {
+                <tr>
+                    <td>
+                        @order.Key
+                    </td>
+                    <td>
+                        @order.Value.TimeOfPayment
+                    </td>
+                    <td>
+                      @{sum = 0;
+                          foreach (var oProduct in Model1.orderProduct)
+                        {
+                            if (oProduct.Value.Order.Id == order.Key)
+                            {
+                                sum += oProduct.Value.PriceAtPayment;
+                            }
+                          
+                        }
+                       
+                             }
+                        sum= @sum $
+                    </td>
+                    <td>
+                        <a href="~/Order/Details?Id=@order.Key">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+
+
+    </table>
+
+}
+    
+}
+

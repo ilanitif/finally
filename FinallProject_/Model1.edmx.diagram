@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="08c92f01a79f4cc185f0209a042dab0a" Name="Diagram1">
+        <EntityTypeShape EntityType="FinallProject_Model.Category" Width="1.5" PointX="3.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinallProject_Model.Images" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinallProject_Model.Order" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinallProject_Model.OrderProduct" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinallProject_Model.Product" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinallProject_Model.Shipping_Company" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinallProject_Model.User" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="FinallProject_Model.FK_Category_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_Product_SubCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_Images_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_Images_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_Order_Shipping_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_Order_User" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_OrderProduct_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_OrderProduct_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="FinallProject_Model.FK_Product_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FinallProject_Model.Inbox" Width="1.5" PointX="3" PointY="11.5" />
+        <AssociationConnector Association="FinallProject_Model.FK_Inbox_User" />
+        <AssociationConnector Association="FinallProject_Model.FK_Inbox_User1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

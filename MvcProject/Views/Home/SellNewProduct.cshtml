@@ -1,0 +1,391 @@
+﻿@model MvcProject.BuyNet.Product
+@{
+    ViewBag.Title = "SellNewProduct";
+}
+
+ <style>
+
+
+    #contact-form {
+   
+    padding:20px;
+    margin: 50px auto;    
+    border: 6px solid #8FB5C1;
+    -moz-border-radius:15px;
+    -webkit-border-radius:15px;
+    border-radius:15px;
+    position:relative;
+  
+}
+
+ 
+#contact-form h1 {
+    font-size:42px;
+}
+ 
+#contact-form h2 {
+    margin-bottom:15px;
+    font-style:italic;
+    font-weight:normal;
+}
+ 
+#contact-form input, 
+#contact-form select, 
+#contact-form textarea, 
+#contact-form label {
+    font-size:15px;
+    margin-bottom:2px;
+}
+ 
+
+
+     #contact-form input:focus,
+     #contact-form select:focus,
+     #contact-form textarea:focus {
+         border: 1px solid #AFCDD8;
+         background-color:lavender;
+     }
+ 
+#contact-form textarea {
+    height:150px;
+    resize: none;
+}
+ 
+#contact-form label {
+    display:block;
+}
+ 
+#contact-form .required {
+    font-weight:bold;
+    color:#F00;    
+}
+ 
+#contact-form #submit-button {
+    width: 100px;
+    background-color:#333;
+    color:#FFF;
+    border:none;
+    display:block;
+    float:right;
+    margin-bottom:0px;
+    margin-right:6px;
+    background-color:#8FB5C1;
+    -moz-border-radius:8px;
+}
+ 
+#contact-form #submit-button:hover {
+    background-color: #A6CFDD;
+}
+ 
+#contact-form #submit-button:active {
+    position:relative;
+    top:1px;
+}
+ 
+#contact-form #loading {
+    width:32px;
+    height:32px;
+    background-image:url(../img/loading.gif);
+    display:block;
+    position:absolute;
+    right:130px;
+    bottom:16px;
+    display:none;
+}
+ 
+#errors {
+    border:solid 1px #E58E8E;
+    padding:10px;
+    margin:25px 0px;
+    display:block;
+    width:437px;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    background:#FFE6E6 url(../img/cancel_48.png) no-repeat 405px center;
+    display:none;
+}
+ 
+#errors li {
+    padding:2px;
+    list-style:none;    
+}
+ 
+#errors li:before {
+    content: ' - ';    
+}
+ 
+#errors #info {
+    font-weight:bold;
+}
+ 
+#errors #info:before {
+    content: '';    
+}
+ 
+#success {
+    border:solid 1px #83D186;
+    padding:25px 10px;
+    margin:25px 0px;
+    display:block;
+    width:437px;
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    background:#D3EDD3 url(../img/accepted_48.png) no-repeat 405px center;
+    font-weight:bold;
+    display:none;
+}
+ 
+#errors.visible, #success.visible {
+    display:block;    
+}
+ 
+#req-field-desc {
+    font-style:italic;
+}
+ 
+/* Remove box shadow firefox, chrome and opera put around required fields. It looks rubbish. */
+input:required, textarea:required {
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+    -o-box-shadow:none;
+    box-shadow:none;
+}
+ 
+/* Normalize placeholder styles */
+ 
+/* chrome, safari */
+::-webkit-input-placeholder {
+    color:#CCC;
+    font-style:italic;
+}
+ 
+/* mozilla */
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color:#CCC;
+    font-style:italic;
+}
+ 
+/* ie (faux placeholder) */
+input.placeholder-text, textarea.placeholder-text  { 
+    color:#CCC;
+    font-style:italic;
+}
+
+
+
+
+</style>
+<ul id="errors" class="">
+    <li id="info">There were some problems with your form submission:</li>
+</ul>
+<p id="success">Thanks for your message! We will get back to you ASAP!</p>
+  
+
+<div id="contact-form" class="clearfix">
+    <div id="first">
+        <h1>Sell New Product</h1>
+        <br/>
+        <br />
+         
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                <label class="col-lg-2">Product Name:<span class="required">*</span> </label>
+                <input name="productName" class="col-lg-3" type="text" required="required" />
+                <span id="req-field-desc" class="col-lg-3">(40 charcters max)</span>
+            </div>
+            <br />
+
+
+            <div class="row">
+                <div class="col-lg 6">
+                    <label class="col-lg-2">
+                        Category:<span class="required">*</span>
+                    </label>
+                    <select class="col-lg-4" name="categoryId" onselect="foo()" required="required">
+                        @{
+                            <option selected>Choosen</option>
+                            foreach (var item in MvcProject.Controllers.HomeController.client.GetCategories())
+                            {
+                                @:
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+                            }
+                        }
+
+
+                    </select>
+                </div>
+                <div class="col-lg 6">
+                    <label class="col-lg-2">
+                        Sub Category:<span class="required">*</span>
+                    </label>
+                    <select class="col-lg-4" name="subCategoryId" onselect="foo();" required="required">
+                        @{
+                            <option selected>Choosen</option>
+                            foreach (var item in MvcProject.Controllers.HomeController.client.SubCategories())
+                            {
+                                @:
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+                            }
+                        }
+
+                    </select>
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <label class="col-lg-2">
+                    Description:
+                </label>
+
+                <textarea class="col-lg-4" name="productDescription" maxlength="80" placeholder="product description must be greater than 80 charcters"></textarea>
+                <span id="req-field-desc" class="col-lg-2">(80 charcters max)</span>
+
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-lg-2">
+                    item condition:<span class="required">*</span>
+                </label>
+
+                <span class="col-lg-4"><input class="col-lg-1" type="radio" value=True name="itemCondiation"><label class="col-lg-1">New</label> </span>
+                <span class="col-lg-4"><input class="col-lg-1" type="radio" value=False name="itemCondiation"><label class="col-lg-1">Used</label> </span>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-lg-2">
+                    Brand:<span class="required">*</span>
+                </label>
+                <input class="col-lg-4" name="brand" type="text" maxlength="20" required="required" />
+                <span class="col-lg-2" id="req-field-desc">(20 charcters max)</span>
+            </div>
+            <br />
+            <div class="row">
+                <label class="col-lg-2">
+                    Price:
+                    <span class="required">*</span>
+                </label>  <label class="col-lg-1">US $ </label>
+                <input name="price" style="width:100px" class="col-lg-0" type="number" min="1" required />
+
+            </div><br />
+            <div class="row">
+                <label class="col-lg-2">
+                    Add Picture
+                </label>
+                <style>
+                    .thumb {
+                        height: 75px;
+                        border: 1px solid #000;
+                        margin: 10px 5px 0 0;
+                    }
+                </style>
+
+                <input type="file" id="files" accept="image/*"  name="files[]" multiple />
+                <output id="list"></output>
+                
+                <script>
+                    // Check for the various File API support.
+                    if (window.File && window.FileReader && window.FileList && window.Blob) {
+                        // Great success! All the File APIs are supported.
+                    } else {
+                        alert('The File APIs are not fully supported in this browser.');
+                    }
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+    }
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+                </script>
+           </div>
+            <h1>Shipping</h1>
+            <br />
+            <br />
+
+            <div class="row">
+                <label class="col-lg-2">
+                    Shipping to:
+                </label>
+
+                <span >
+                    <input class="col-lg-1" type="radio" name="optradio">
+                    <label class="col-lg-2">Worldwide</label>
+                    <label class="col-lg-1">Other</label>
+                    <input class="col-lg-3" type="text" placeholder="Where you do/ do not ship to" />
+                </span>
+            </div><br />
+            <div class="row">
+                <label class="col-lg-2"> Shipping Cost:<span class="required">*</span></label><label class="col-lg-1"> US $</label><input style="width:100px" class="col-lg-2" type="number" required="required" />
+</div><br />
+            <div class="row">
+                <label class="col-lg-2">
+                    Delivery:<span class="required">*</span>
+                </label> <label class="col-lg-1">Maximum</label>  <input style="width:50px" class="col-lg-2" type="number" min="1" max="31" required="required" /><label class="col-lg-1">days.</label> 
+
+            </div><br />
+    <div class="row">
+    <label class="col-lg-2">
+        Get Paid:
+        <span class="required">*</span>
+    </label><br />
+
+    <span>
+        <input class="col-lg-1" type="radio" name="optradio">
+        <img class="col-lg-2" src="~/imgPay/visaImg.jpg" width="65" height="25" />
+        <input class="col-lg-1" type="radio" name="optradio">
+        <img class="col-lg-2" src="~/imgPay/PayPal.jpg" width="60" height="60" />
+    </span>
+</div><br />
+    <span id="loading"></span>
+    <input type="submit" value="Save" id="submit-button" />
+
+    <p id="req-field-desc"><span>*</span> indicates a required field</p>
+
+    </form>
+</div>
+</div>
+<div>
+    @Html.ActionLink("Back to Home page", "Index")
+</div>
+<script language="javescript">
+            function foo() {
+                alert("sasad");
+                var cat = document.getElementById("categories");
+                var catArr = @MvcProject.Controllers.HomeController.client.SubCategories().ToList();
+                for (var i = 0; i < @MvcProject.Controllers.HomeController.client.SubCategories().Length ; i++)
+                {
+                    if (carrArr[i].name == item.name)
+                    {
+                        document.getElementById("sub").value = carrArr[i].value;
+                    }
+                }
+            }
+</script>
+

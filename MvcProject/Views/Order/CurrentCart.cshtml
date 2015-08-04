@@ -1,0 +1,76 @@
+﻿@using MvcProject.BuyNet;
+@{
+    ViewBag.Title = "CurrentCart";
+}
+
+<h2>CurrentCart</h2>
+
+@{
+    ViewBag.Title = "CurrentCart";
+}
+
+<h2>Current Cart</h2>
+<hr />
+<br />
+@{
+    OrderProduct or = (OrderProduct)Session["orderProduct"];
+
+
+    decimal sum = 0;
+    <table border="1" cellpadding="10">
+        @if (or == null)
+        {
+            <tr style="border:none">
+                <td> Order didn`t found</td>
+            </tr>
+        }
+        else
+        {
+
+            <thead style="color:blue;font-weight:bold">
+                <tr>
+                    <td> Product Name</td>
+                    <td> Product Price</td>
+                    <td> Quntity</td>
+                    <td> Price At Payment</td>
+                    <td> Less**</td>
+                    <td> More* </td>
+
+                </tr>
+            </thead>
+            foreach (var orderProduct in MvcProject.Controllers.HomeController.client.GetOrderProducts())
+            {
+                if (orderProduct.Order.Id == or.Order.Id && orderProduct.Order.DateOfPayment == null)
+                {
+                    <tr>
+
+                        <td>@orderProduct.Product.Name </td>
+                        <td>@orderProduct.Product.Price </td>
+                        <td>@orderProduct.Quentity</td>
+                        <td>@{(orderProduct.Product.Price * orderProduct.Quentity)} $</td>
+                        <td hidden> </td>
+                        <td style="font-weight:bold" align="center"><a href="/Order/Remove?orderProductId=@orderProduct.Id">-</a></td>
+                        <td style="font-weight:bold" align="center"><a href="/Order/Add?orderProductId=@orderProduct.Id">+</a></td>
+                    </tr>
+                                    }
+                                }
+
+
+
+
+
+                            }
+    </table>
+    <hr />
+            <h4>SUM=@sum $</h4>
+            <br />
+            <h5>*for adding more quntity from product to purchase click the plus sign(+) </h5>
+            <h5>**To remove a product quntity from order click the minus sign(-)</h5>
+}
+<br />
+<form action="/Order/Payment">
+    <input type="hidden" name="sum" value="@sum">
+    <input type="submit" class="btn-primary" value="Check Out" />
+</form>
+
+

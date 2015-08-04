@@ -1,0 +1,60 @@
+﻿@model IDictionary<MvcProject.BuyNet.Product, MvcProject.BuyNet.Category>
+
+@using MvcProject.Controllers
+
+
+@*<script>
+    function span(@Model.FirstOrDefault().Value)
+    {
+        if(@Model.FirstOrDefault().Value!=null)
+        {
+            var spanp = document.createElement("span");
+            var text=document.createTextNode(@Model.FirstOrDefault().Value.ParentCategory.Name);
+            spanp.appendChild(text);
+            spanp.className("glyphicon glyphicon-play");
+            document.getElementById("span").appendChild(spanp);
+
+            span(Model.FirstOrDefault().Value);
+        }
+        else
+        {
+            return;
+        }
+          
+    }
+</script>*@
+
+        @{int div = 0;
+            string row = ":<div class='row'>";
+            string close_row = "</div>";
+            <br />
+
+
+
+            @:<a herf=> <span style="padding-left: 21px;padding-bottom: 11px;padding-top: 11px;color:black" id="span" class="glyphicon glyphicon-play" onload="span(@Model.FirstOrDefault().Value"><span style="font-size:18px">@Model.FirstOrDefault().Value.Name </span></span></a><br />
+
+
+
+
+            <br />
+            foreach (var item in Model.ToList())
+            {
+                <div class="col-xs-4">
+                    @Html.Partial("ProductView", item.Key)
+                </div>
+
+                if (div == 2)
+                {
+                    div = 0;
+
+                    @Html.Raw(close_row);
+                    @Html.Raw(row);
+
+
+                }
+                div++;
+
+            }
+
+        }
+

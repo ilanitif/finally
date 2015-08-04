@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Logoff", "User", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right" >
+        <li>
+            @Html.ActionLink("Hello " + (string)Session["User"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="~/Controllers/HomeController/Logoff">Log off</a></li>
+    </ul>
+    }
+}
+else
+{
+    MvcProject.BuyNet.User user = (MvcProject.BuyNet.User)Session["User"];
+    <ul class="nav navbar-nav navbar-right" style="font-size:16px; font-weight:bolder">
+        @if (user == null)
+        {
+        <li>@Html.ActionLink("Register", "Create", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+
+        <li>@Html.ActionLink("Log in", "Login", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        }
+        else
+        {
+        <li>@Html.ActionLink("Private Zone", "userp", "home", routeValues: null, htmlAttributes: new { id = "privat-zomt" })</li>
+
+            <li>@Html.ActionLink("Log off", "Logoff", "Home", routeValues: null, htmlAttributes: new { id = "logoffLink" })</li>
+            <li>@Html.ActionLink(user.UserName, "userp", "home", routeValues: null, htmlAttributes: new { id = "userlink" })</li>
+        }
+      
+      
+
+       
+        <li><div style="margin-left:60%; margin-top:10px">
+    <button class="btn btn-primary" type="button" style="margin-right: -290px;">
+        Messages <span class="badge">@{if (user != null) { MvcProject.Controllers.HomeController.client.GetInbox(user).Count(); }
+        }</span>
+
+    </button>
+</div>
+</li>
+
+    </ul>
+}
+
+

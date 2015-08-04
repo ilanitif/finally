@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+}
+<style>
+    .left {
+        margin-top: 80PX;
+    }
+
+    .right {
+        margin-left: 60%;
+        margin-top: 80PX;
+    }
+</style>
+
+<h2>Payment</h2>
+<hr />
+<h4>Enter a payment Details  and comfirm payment</h4>
+<br />
+
+ @{OrderProduct or = (OrderProduct)Session["orderProduct"]; if (or == null) { <span>Order did not found</span>}
+   else
+   {
+    <table>
+        <tr>
+            <td><b>User Name:</b>@or.Order.user.UserName</td>
+        </tr>
+        <tr>
+            <td><b>User Id:</b>@or.Order.user.Id</td>
+        </tr>
+
+    </table>
+
+    <br />
+    <br />
+    <form name="myForm" method="post">
+        Please select the wanted payment:
+        <select name="card" onselect="seclected">
+            <option>AmericanExspress</option>
+            <option>MasterCard</option>
+            <option>Visa</option>
+            <option>PayPall</option>
+        </select>
+        <br />
+        <br />
+        Please Enter your card number:
+        <input maxlength="10" name="cardNumber" id="card" onkeypress="return numbersonly(event)" />
+        <br />
+        <br />
+        Please enter cvc number (3-digit code Card Security number behind the card):
+        <input maxlength="3" name="cvc" onkeypress="return numbersonly (event)" />
+        <br />
+        <br />
+        Please enter full name of the card owner:
+        <input name="firstName" placeholder="First Name" />
+        <input name="lastName" placeholder="Last Name" />
+        <br />
+        <br />
+        Please enter card owner Id:
+        <input name="Id" maxlength="9" onkeypress="return numbersonly (event)" />
+        <br />
+        <br />
+        Please enter your delivery adress:
+        <input name="street" placeholder="street" />
+        <input name="city" placeholder="city" />
+        <input name="post_code" placeholder="post code" onkeypress="return numbersonly (event)" />
+        <br />
+        <br />
+        <input type="submit" value="Pay now" class="btn btn-primary">
+        <br />
+        <br />
+    </form>
+
+    <span class="alert-@ViewBag.Success">
+     
+        @ViewBag.Message
+    </span>
+
+     
+     <footer>
+         <a href="/Home/Index" class="btn btn-primary left">Home page</a>
+         <a href="~/Order/ShoopingHistory" class="btn btn-primary right">View shooping history</a>
+     </footer>
+   }
+<script>
+    function numbersonly(e) {
+        var unicode = e.charCode ? e.charCode : e.keyCode
+        if (unicode != 8) { //if the key isn't the backspace key (which I should allow)
+            if (unicode < 48 || unicode > 57) //if not a number
+                return false //disable key press
+        }
+    }
+</script>
+
+}

@@ -1,0 +1,130 @@
+﻿@model IDictionary<MvcProject.BuyNet.Product, MvcProject.BuyNet.Category>
+@using MvcProject.Controllers;
+@using MvcProject.BuyNet;
+
+<style>
+    h1{
+        color:orangered;
+    }
+</style>
+
+<div>
+   
+        
+        <div id="myCarousel" class="carousel slide" style="padding-top:40px;">
+            <!-- slider -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <div class="caption-block"></div>
+            <div class="carousel-inner">
+
+                <div class="active item">
+                    <!-- item 1 -->
+                    <img src="/pics/[Phones & Telecommunications]/Galxy S5/Galxy5s.jpg" alt="">
+                    <div class="carousel-caption">
+                        <h1>50% on sale</h1>
+                    </div>
+                </div> <!-- end item -->
+                <div class="item">
+                    <!-- item 2 -->
+                    <img src="/pics/Books/The Bold And The Beutifual/TheBoldAndBeutifual.jpg" alt="">
+                    <div class="carousel-caption">
+                        <h1>20% off on Books</h1>
+                        
+                        
+                    </div>
+                </div> <!-- end item -->
+                <div class="item">
+                    <!-- item 3 -->
+                    <img src="/pics/[Phones & Telecommunications]/IPHONE 5/iphone.jpg" alt="">
+                    <div class="carousel-caption">
+                        <h1>free shipping</h1>
+                        <h1>High quality products</h1>
+                    </div>
+                </div> <!-- end item -->
+            </div> <!-- end carousel inner -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div> <!-- end slider -->
+
+    <div class="row" id="text">
+        @{ int div = 0;
+            string row = "<div class='row'>";
+            string close_row = "</div>";
+            string span = "<span style='padding-left: 21px;padding-bottom: 11px;padding-top: 11px;color:black' id='span' class='glyphicon glyphicon-play'>";
+            string endSpan = "</span></a><br />";
+            foreach (var item in Model.ToList())
+            {
+                if (div == 0)
+                {
+                    @Html.Raw(span + " " + item.Value.Name + " " + endSpan)
+                }
+                <div class="col-lg-4">
+                    @Html.Partial("ProductView", item.Key)
+                </div>
+                div++;
+                if (div == 3)
+                {
+                    div = 0;
+
+                    @Html.Raw(close_row)
+                    @Html.Raw(row);
+
+
+                }
+
+
+            }
+
+
+        }
+    </div>
+</div>
+
+
+
+<br />
+<script>
+    $(window).load(function () {
+        alert();
+        $('#myCarousel').carousel({
+            interval: 4000
+        })
+    });
+</script>
+
+<div class="fb-like" data-href="@*https://developers.facebook.com/docs/plugins/*@" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+<div class="fb-like"
+     data-share="true"
+     data-width="450"
+     data-show-faces="true">
+</div>
+<div class="fb-share-button" data-href="@*https://developers.facebook.com/docs/plugins/*@" data-layout="button_count"></div>
+<div class="fb-comments" data-href="@*http://developers.facebook.com/docs/plugins/comments/*@" data-numposts="5"></div>
+<script>
+    //var e = document.getElementById("aComDiv");
+    //var s = 1;
+
+    //setInterval(function () {
+
+    //    var eLeftPos = e.offsetLeft;
+    //    e.style.left = (eLeftPos + s) + 'px';
+    //    if (parseInt(e.style.left) > 1000) { e.style.left = '0px'; }
+
+    //}, 1000);
+    //var top = document.getElementById("aDiv").style.top;
+    //setInterval(function () {
+    //    top += 1;
+    //    var e = document.getElementById("aDiv");
+
+    //    // Increase the top position by 1 pixel
+    //    e.style.top = top + 'px';
+    //    // If the top position is greater than 100px, set it to 100px
+    //    if (parseInt(e.style.top) > 100) { e.style.top = '100px'; }
+    //}, 1000);
+
+
+</script>

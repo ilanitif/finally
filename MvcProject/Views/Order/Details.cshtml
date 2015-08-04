@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+@{Order or = (Order)Session["order"];
+
+
+decimal sum = 0;
+    <table border="1" cellpadding="10">
+        @if (or == null)
+        {
+            <tr>
+                <td> Order was not found</td>
+            </tr>
+        }
+        else
+        {
+
+            <thead style="color:blue;font-weight:bold">
+                <tr>
+                    <td> Product Name</td>
+                    <td> Product Price</td>
+                    <td> Quntity</td>
+                    <td> Price At Payment</td>
+
+
+
+                </tr>
+            </thead>
+            foreach (var orderProduct in Model1.orderProduct)
+            {
+                if (orderProduct.Value.Order.Id == or.Id && orderProduct.Value.Order.TimeOfPayment != null)
+                {
+                    <tr>
+                        <td>@orderProduct.Value.Product.Name </td>
+                        <td>@orderProduct.Value.Product.Price </td>
+                        <td>@orderProduct.Value.Quantity</td>
+                        <td>@orderProduct.Value.A_PriceAtPayment()</td><
+                        <td hidden>@{sum += orderProduct.Value.PriceAtPayment;} </td>
+
+
+                    </tr>
+                }
+            }
+
+
+
+
+
+        }
+    </table>
+        <hr />
+        <h4>SUM=@sum</h4>
+    }

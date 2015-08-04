@@ -1,0 +1,220 @@
+﻿@model MvcProject.BuyNet.Product
+<script>
+    $(document).ready(function () {
+
+        var end = new Date(2015, 08, 08, 10, 0, 0, 0);
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        var timer;
+
+        function showRemaining() {
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+
+                clearInterval(timer);
+                document.getElementById("time").innerHTML = 'EXPIRED!';
+
+                return;
+            }
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+            document.getElementById("time").innerHTML = days + 'd ';
+            document.getElementById("time").innerHTML += hours + 'h ';
+            document.getElementById("time").innerHTML += minutes + 'm ';
+            document.getElementById("time").innerHTML += seconds + 's';
+
+        }
+
+        timer = setInterval(showRemaining, 1000);
+
+    });
+</script>
+<style>
+    h2 {
+        width: 259.77px;
+        height: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre-wrap;
+    }
+
+
+    .inner {
+        position: center;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    a:link {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        color: orange;
+    }
+
+        a:hover h2 {
+            white-space: pre-line;
+            overflow: visible;
+            padding-bottom: 60px;
+        }
+
+    .info {
+        text-overflow: ellipsis;
+        width: 220px;
+        overflow: hidden;
+        white-space: nowrap;
+        height: 141px;
+        white-space: nowrap;
+    }
+
+    .my-img {
+        width: 220px;
+        height: 220px;
+    }
+
+    .wrapper {
+        width: 262px;
+        height: 417px;
+        background-color: white;
+    }
+
+        .wrapper:hover {
+            border: none;
+            float: left;
+            height: 500px;
+            width: 280px;
+            background-color: #ffffff;
+            -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            -webkit-transition: .2s ease;
+            -moz-transition: .2s ease;
+            -o-transition: .2s ease;
+            -ms-transition: .2s ease transition: .2s ease;
+        }
+
+    .discount-rate {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        z-index: 1;
+        background: url(/wimg/buyer/sprite/list-2013.png?t=73748612_0) no-repeat left -1374px;
+        color: #fff;
+        width: 40px;
+        height: 43px;
+        letter-spacing: -1px;
+        white-space: nowrap;
+        text-align: center;
+        text-indent: -10px;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    $(".wrapper").hover(function () {
+        $(".info").css('overflow', 'visible');
+    })
+</script>
+
+
+<div class="wrapper">
+
+    <a href="/home/Product_Page/@Model.Id">
+        <div class="inner">
+            <br />
+            <h2 class="text" title="@Model.Name" style="font-weight:bolder;font-family: cursive">@Model.Name</h2>
+            <p class="col-md-12">
+                @{string img = Model.Images.FirstOrDefault() == null ? "/pics/empty2.png" : Model.Images[0].img;
+
+                    <img class="my-img img-responsive img-rounded" src="@Html.Raw(img)" alt="@Model.Name" width="150" height="150" />
+                }
+                <div class="triangle-down"> </div>
+                <br />
+                <div class="">
+                    <div>
+                        @for (int i = 0; i < Model.Rating; i++)
+                        {
+                            @:<span class='bottom glyphicon glyphicon glyphicon-star' style="color:orange;  font-size: large;"></span>
+
+
+
+
+                        }
+                        @if (Model.Rating < 5)
+                        {
+                            for (int i = 0; i < (5 - Model.Rating); i++)
+                            {
+                                @: <span class="bottom glyphicon glyphicon glyphicon-star" style="color:lightblue; font-size:large"></span>
+            }
+                        }
+                    </div>
+                    <br />
+                    <div style="font-size:14px;width:261px; height:40px; overflow:hidden">
+                        @Model.Description
+                    </div>
+                    <br />
+                    @if (Model.Date != null)
+                    {
+                        
+                        <div class="col-md-8" style="font-weight:bolder;background-color: forestgreen;color:white;width: 173px; height: 42px">
+                            <span style="font-size:16px" id="time">
+                                @*time of product*@
+                            </span><br><span style="font-size:19px" class="glyphicon glyphicon-usd value" itemprop="price"></span><span style="font-size:20px">
+                                @Model.Price 
+
+                            </span> 
+                            <span class="unit" style="font-size:12px">or best offer..</span>
+                        </div>
+
+                    }
+                    else
+                    {
+
+                        <div class="col-md-8" style="font-weight:bolder;background-color: orange;color:white;width: 173px; height: 42px">
+
+                            <span style="font-size:24px">
+                                US
+                            </span><span style="font-size:19px" class="glyphicon glyphicon-usd value" itemprop="price"></span><span style="font-size:24px">
+                                @Model.Price
+                            </span> <span class="separator">/</span>
+                            <span class="unit" style="font-size:12px">unit</span>
+                        </div>
+                    }
+
+                </div>
+
+            </p>
+        </div>
+    </a>
+
+</div>
+
+@*<script>
+
+    function updatePrice(container, n) {
+        //container -> each one of the $('.cd-gallery').children('li')
+        //n -> index of the selected item in the .cd-item-wrapper
+        var priceTag = container.find('.cd-price'),
+            selectedItem = container.find('.cd-item-wrapper li').eq(n);
+        if( selectedItem.data('sale') ) {
+            // if item is on sale - cross old price and add new one
+            priceTag.addClass('on-sale');
+            var newPriceTag = ( priceTag.next('.cd-new-price').length > 0 ) ? priceTag.next('.cd-new-price') : $('<em class="cd-new-price"></em>').insertAfter(priceTag);
+            newPriceTag.text(selectedItem.data('price'));
+            setTimeout(function(){ newPriceTag.addClass('is-visible'); }, 100);
+        } else {
+            // if item is not on sale - remove cross on old price and sale price
+            priceTag.removeClass('on-sale').next('.cd-new-price').removeClass('is-visible').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
+                priceTag.next('.cd-new-price').remove();
+            });
+        }
+    }
+    </script>*@

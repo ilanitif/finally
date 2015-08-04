@@ -1,0 +1,146 @@
+﻿
+
+
+
+
+
+
+
+
+
+@using MvcProject.BuyNet;
+
+@{
+
+    Product product = new Product();
+    product = (Product)Session["product"];
+    Shipping_Company ship = (Shipping_Company)ViewBag.ship;
+    User user = (User)Session["User"];
+
+}
+<head>
+    <link href="~/StyleVIewPages/YourDetailsCss.css" rel="stylesheet" />
+</head>
+   
+
+    <div id="main" class="row">
+       
+            <h1>Your Deatails</h1>
+
+            <form method="post">
+                <div class="col-md-8">
+                    <span class="col-lg-12">
+                        <label  class="col-lg-3">
+                            First Name:
+                        </label><input class="col-lg-3" type="text" name="firstName" placeholder="@user.First_Name" value="" /><label class="col-lg-3"> Last Name: </label><input class="col-lg-3" type="text" name="lastName" placeholder="@user.Last_Name" />
+
+                    </span>
+                    <span class="col-lg-12">
+                        <label class="col-lg-3" >
+                            Country:
+                        </label><input class="col-lg-3" type="text" placeholder="@user.Country" /><label class="col-lg-3">City:</label>  <input class="col-lg-3" type="text" placeholder="@user.City" />
+
+                        </span>
+                    
+                    <span class="col-lg-12">
+                        <label class="col-lg-3">
+
+                            Street:
+                        </label> <input class="col-lg-3" type="text" placeholder="insert street" name="street" required /><label class="col-lg-3">
+    no.</label><input class="col-lg-3" type="text" placeholder="@user.Street_number" name="streetNumber" />
+
+    <label class="col-lg-3">
+        Zip Code:
+    </label> <input class="col-lg-1" type="text" name="zipCode" placeholder="@user.Zip_Code" />
+
+</span>
+                    <span id="nots" class="col-lg-12">
+                        <label class="col-lg-3">
+                            Notes
+                        </label>
+                            <textarea class="col-lg-3" name="notes" placeholder="Type Here" maxlength="80"></textarea>
+                        
+                        </span>
+                    <span class="col-lg-12" style="margin-top:100px">
+                        <label>Get Paid:  </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="card" id="card_visa" value="visa">
+                            <img src="~/pics/visaImg.jpg" width="60" height="25" />
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="card" id="card_paypal" value="paypal" style="margin-top: 18px;">
+                            <img src="~/pics/PayPal.jpg" width="50" height="50" />
+                        </label>
+                       
+                        </span>
+                    
+</div>
+
+                <div class="col-md-4" dir="rtl" style="    margin-left: -149px;
+    margin-top: -59px;">
+                    
+                    
+                   
+                    @{string img = product.Images.FirstOrDefault() == null ? "/pics/empty2.png" : product.Images.FirstOrDefault().img; }
+                        <img src="@Html.Raw(img)" width="200" height="200" />
+                    <br/>
+                       <br />
+                    <label class="col-lg-12">@product.Name </label>
+                        <input hidden name="productId" value="@product.Id" />
+                        <input hidden name="shippingId" value="@ship.Id" />
+                        <label class="col-lg-12">
+                            <span>Quantity:</span>
+                           <input id="quantity" type="number" min="1" max="10" name="quantity" required />
+                           
+                        </label>
+                        <label class="col-lg-12"> shipping cost: US $@ship.Shipping_Cost </label>
+                        <label class="col-lg-12"> Price: US $ <span id="price">@product.Price </span>  </label>
+                    <br/>
+                    <br/>
+                   
+                   
+                    </div>
+               
+                <span class="col-lg-12">
+                    <button type="submit" onclick="check1();" class="btn btn-info col-lg-offset-11 col-lg-1">Next</button>
+                </span>
+                </form>
+
+            </div>
+        
+                    
+
+         <script>      
+             $(function(){
+                 $("input[type=number]").bind('keyup change click',function (e) {
+                     var d=$(this).val();
+                 $("#price").html( d *@product.Price);
+             });
+                
+             });
+            
+    function check1() {
+
+        var radio_check_val = "";
+        for (i = 0; i < document.getElementsByName('card').length; i++) {
+            if (document.getElementsByName('card')[i].checked) {
+                //alert("this radio button was clicked: " + document.getElementsByName('card')[i].value);
+                radio_check_val = document.getElementsByName('card')[i].value;
+
+            }
+
+        }
+        if (radio_check_val === "")
+        {
+            alert("Choose a payment");
+        }
+
+
+
+
+    }
+                    </script>
+
+
+
+
